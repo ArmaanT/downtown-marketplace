@@ -1,1 +1,1 @@
-web: gunicorn pennlabs.wsgi
+web: gunicorn marketplace.wsgi
