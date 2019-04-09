@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+flake8-isort = "*"
+flake8-quotes = "*"
+
+[packages]
+django = "*"
+dj-database-url = "*"
+mysqlclient = "*"
+whitenoise = "*"
+
+[requires]
+python_version = "3.7"
