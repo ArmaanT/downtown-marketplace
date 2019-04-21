@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 class User(AbstractUser):
     venmo = models.CharField(max_length=255)
 
@@ -20,6 +19,9 @@ class Ticket(models.Model):
     price = models.IntegerField()
     seller = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
     downtown = models.ForeignKey(Downtown, on_delete=models.DO_NOTHING)
+
+    class Meta:
+        ordering = ['price']
 
     def __str__(self):
         return str(self.seller) + ': ' + str(self.downtown)

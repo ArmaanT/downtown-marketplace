@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Time</th>
+                <th>Number of tickets</th>
+                <th>Lowest price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for downtown in downtowns %}
+                <tr>
+                    <td>{{ downtown.name }}</td>
+                    <td>{{ downtown.location }}</td>
+                    <td>{{ downtown.time }}</td>
+                    <td>{{ downtown.ticket_set.all|length }}</td>
+                    <td>{{ downtown.ticket_set.first.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

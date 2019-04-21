@@ -1,3 +1,8 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 
-# Create your views here.
+from main.models import Downtown
+
+
+def homepage(request):
+    downtowns = Downtown.objects.all()
+    return render(request, 'home.html', {'downtowns' : downtowns})
