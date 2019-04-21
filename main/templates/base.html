@@ -9,11 +9,24 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
-  <section class="section">
-    <div class="container">
-      {% block content %}
-      {% endblock %}
+  <section class="section" style="min-height: calc(100vh - 80.5px)">
+    <div class="hero-body">
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
     </div>
   </section>
+  <section class="hero is-info is-small">
+    <div class="hero-body">
+      <div class="container">
+        <p> Made without
+          <i class="fab fa-js-square"></i>
+          by
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Armaan and Peyton<sub><sub><sub><sub> and Ben</sub></sub></sub></sub></a>
+        </p>
+      </div>
+    </div>
+    </section>
   </body>
 </html>
