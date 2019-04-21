@@ -5,4 +5,4 @@ from main.models import Downtown
 
 def homepage(request):
     downtowns = Downtown.objects.all()
-    return render(request, 'home.html', {'downtowns' : downtowns})
+    return render(request, 'home.html', {'downtowns': downtowns})
