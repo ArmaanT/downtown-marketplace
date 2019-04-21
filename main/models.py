@@ -21,5 +21,8 @@ class Ticket(models.Model):
     seller = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
     downtown = models.ForeignKey(Downtown, on_delete=models.DO_NOTHING)
 
+    class Meta:
+        ordering = ['price']
+
     def __str__(self):
         return str(self.seller) + ': ' + str(self.downtown)
