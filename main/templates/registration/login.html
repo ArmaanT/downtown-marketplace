@@ -11,7 +11,7 @@
     {% for field in form.visible_fields %}
     <div class="field">
         <label class="label">{{ field.label }}</label>
-        <div class="control">
+        <div class="control" style="max-width: 30%">
             {{ field|add_class:"input" }}
         </div>
     </div>
