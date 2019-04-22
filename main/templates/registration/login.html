@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    <div class="field">
+        <label class="label">{{ field.label }}</label>
+        <div class="control">
+            {{ field|add_class:"input" }}
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="field is-grouped">
+        <div class="control">
+            <button type="submit" class="button is-link">Log in</button>
+        </div>
+        <div class="control">
+            <a href="/" class="button is-text">Cancel</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

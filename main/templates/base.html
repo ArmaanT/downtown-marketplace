@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html style="height: 100%">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,8 +8,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
-  <body>
-  <section class="section" style="min-height: calc(100vh - 80.5px)">
+  <body style="display: flex; flex-direction: column; height: 100%">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a href="/" class="navbar-item">Home</a>
+        </div>
+      </div>
+      <div class="navbar-end">
+        {% if user.is_authenticated %}
+        <div class="navbar-item">
+          <div>Welcome, {{ user.first_name|default:user.username }}!</div>
+        </div>
+        <div class="navbar-item">
+          <div class="buttons">
+            <a href="{% url 'logout' %}" class="button is-secondary">Log out</a>
+          </div>
+        </div>
+        {% else %}
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary"><strong>Sign up</strong></a>
+            <a href="{% url 'login' %}" class="button is-secondary">Log in</a>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </nav>
+  <section style="flex: 1 0 auto" class="section">
     <div class="hero-body">
       <div class="container">
         {% block content %}
@@ -18,7 +44,7 @@
     </div>
   </section>
   <section class="hero is-info is-small">
-    <div class="hero-body">
+    <div style="flex-shrink: 0" class="hero-body">
       <div class="container">
         <p> Made without
           <i class="fab fa-js-square"></i>
