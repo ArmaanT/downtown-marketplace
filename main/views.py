@@ -7,6 +7,7 @@ from main.models import Downtown
 class HomeView(TemplateView):
     template_name = 'home.html'
 
-    def get(self, request, *args, **kwargs):
-        downtowns = Downtown.objects.all()
-        return render(request, self.template_name, {'downtowns': downtowns})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['downtowns'] = Downtown.objects.all()
+        return context
