@@ -15,6 +15,7 @@ gunicorn = "*"
 mysqlclient = "*"
 whitenoise = "*"
 django-widget-tweaks = "*"
+django-labs-accounts = "*"
 
 [requires]
 python_version = "3.7"
