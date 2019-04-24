@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'accounts.apps.AccountsConfig',
     'main.apps.MainConfig',
 ]
 
@@ -125,5 +126,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Custom User Model
 
 AUTH_USER_MODEL = 'main.User'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+
+
+# Penn Labs Accounts Settings
+
+PLATFORM_ACCOUNTS = {
+    'REDIRECT_URI': 'https://downtowns.tobaccowalla.com/accounts/callback/',
+    'ADMIN_PERMISSION': 'downtown_admin'
+}
+
+
+# Authentication Backends
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.LabsUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
