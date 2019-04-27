@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f890e443878863754564869a41b056432dc78945f8673b9769f175416ad94949"
+            "sha256": "78f39e852673d7195a60e72a63fbc7131fa63ca71d3f459f83d70c468e7074a3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -47,11 +47,9 @@
             "version": "==2.2"
         },
         "django-labs-accounts": {
-            "hashes": [
-                "sha256:d03d321828d3f376092e5ef0707f4eb261dd95452321292586a197be8b411d3c"
-            ],
-            "index": "pypi",
-            "version": "==0.3.2"
+            "editable": true,
+            "git": "https://github.com/pennlabs/django-labs-accounts.git",
+            "ref": "8ab46b427f00e949effef1961af0fa56284e52a8"
         },
         "django-widget-tweaks": {
             "hashes": [
@@ -162,10 +160,10 @@
         },
         "flake8-quotes": {
             "hashes": [
-                "sha256:3529054055d366812eb882ce35369a91218d55fd95000fa586e07cb84b3fbf69"
+                "sha256:10c9af6b472d4302a8e721c5260856c3f985c5c082b04841aefd2f808ac02038"
             ],
             "index": "pypi",
-            "version": "==2.0.0"
+            "version": "==2.0.1"
         },
         "isort": {
             "hashes": [

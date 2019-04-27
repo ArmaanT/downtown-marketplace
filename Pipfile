@@ -15,7 +15,7 @@ gunicorn = "*"
 mysqlclient = "*"
 whitenoise = "*"
 django-widget-tweaks = "*"
-django-labs-accounts = "*"
+django-labs-accounts = {editable = true,git = "https://github.com/pennlabs/django-labs-accounts.git"}
 
 [requires]
 python_version = "3.7"
