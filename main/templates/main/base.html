@@ -29,7 +29,7 @@
         {% else %}
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary"><strong>Sign up</strong></a>
+            <a href="{% url 'signup' %}" class="button is-primary"><strong>Sign up</strong></a>
             <a href="{% url 'login' %}?next={{ request.path }}" class="button is-secondary">Log in</a>
           </div>
         </div>
