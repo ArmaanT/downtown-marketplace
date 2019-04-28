@@ -1,6 +1,6 @@
-from django.contrib.auth.views import LogoutView
-from django.urls import include, path
 from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import path
+
 from main.views import HomeView
 
 
