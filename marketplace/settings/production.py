@@ -1,6 +1,6 @@
 from marketplace.settings.base import *
 
-DEBUG = True
+DEBUG = False
 
 # Disable Django's own staticfiles handling in favour of WhiteNoise, for
 # greater consistency between gunicorn and `./manage.py runserver`. See:
