@@ -12,10 +12,16 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         downtowns = Downtown.objects.all()
-        following = self.request.user.following
-        context['downtown_info'] = map(
-            lambda downtown: (downtown, len(following.filter(attending__id__exact=downtown.id))),
-            downtowns)
+        if self.request.user.is_authenticated:
+            following = self.request.user.following
+            context['downtown_info'] = map(
+                lambda downtown: (downtown, len(following.filter(attending__id__exact=downtown.id))),
+                downtowns)
+        else:
+            context['downtown_info'] = map(
+                lambda downtown: (downtown, 0),
+                downtowns)
+
         return context
 
 
