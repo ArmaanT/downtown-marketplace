@@ -12,7 +12,7 @@ class User(AbstractUser):
 class Downtown(models.Model):
     name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
-    bio = models.TextField(default="")
+    bio = models.TextField(default='')
     time = models.DateTimeField()
 
     def __str__(self):
