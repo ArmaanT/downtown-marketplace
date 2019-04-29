@@ -1,26 +1,53 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <table class="table sortable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Time</th>
-                <th>Number of tickets</th>
-                <th>Lowest price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for downtown in downtowns %}
-                <tr>
-                    <td>{{ downtown.name }}</td>
-                    <td>{{ downtown.location }}</td>
-                    <td>{{ downtown.time }}</td>
-                    <td>{{ downtown.ticket_set.all|length }}</td>
-                    <td>{{ downtown.ticket_set.first.price }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+{% for downtown, count in downtown_info %}
+<div class="box">
+  <div class="columns">
+    <div class="column is-2">
+    <p>
+      <strong class="is-size-3">{{ downtown.name }}</strong>
+      <br/>
+      {{ downtown.location }}
+      <br/>
+      {{ downtown.time }}
+    </p>
+    </div>
+    <div class="column is-7">
+      <p style="margin-top: 5px">
+        {{ downtown.bio }}
+      </p>
+    </div>
+    <div class="column is-1 has-text-centered">
+      <p>
+        <strong class="is-size-3">{{ downtown.ticket_set.all|length }}</strong>
+        <br/>
+        <span class="has-text-grey">tickets</span>
+      </p>
+    </div>
+    <div class="column is-1 has-text-centered">
+      <p>
+        <strong class="is-size-3">${{ downtown.ticket_set.first.price }}</strong>
+        <br/>
+        <span class="has-text-grey">lowest price</span>
+      </p>
+    </div>
+    <div class="column is-1 has-text-centered">
+      <p>
+        {% if user.is_authenticated %}
+        <strong class="is-size-3">
+          {{ count }}
+        </strong>
+        <br/>
+        <span class="has-text-grey">friends</span>
+        {% else %}
+        Log in to see friends!
+        {% endif %}
+      </p>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
 {% endblock %}
