@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+
+{% block header %}
+<div class="columns is-desktop">
+  <div class="column is-6 is-offset-3">
+    <h1 class="title is-1 has-text-centered">{{ profile_user.first_name }} {{ profile_user.last_name}}</h1>
+    <h1 class="subtitle has-text-centered">@{{ profile_user.username }}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>Test</h1>
+{% endblock %}
