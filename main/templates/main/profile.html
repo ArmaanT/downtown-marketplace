@@ -8,7 +8,36 @@
     {% if follow_state == 1 %}
     <a class="button is-primary"><p><i class="fas fa-check"></i> following</p></a>
     {% elif follow_state == 2 %}
-    <a class="button is-info"><p><i class="fas fa-plus"></i> follow</p></a>
+    <button class="button is-info" onclick="follow()"><p><i class="fas fa-plus"></i> follow</p></button>
+    <script type="text/javascript">
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      function follow() {
+        console.log("a")
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/accounts/follow/", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        urlEncodedDataPairs = []
+        urlEncodedDataPairs.push(encodeURIComponent("username") + '=' + encodeURIComponent("{{ profile_user.username }}"));
+        urlEncodedDataPairs.push(encodeURIComponent("csrfmiddlewaretoken") + '=' + encodeURIComponent(getCookie('csrftoken')));
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+        xhr.send(urlEncodedData);
+        location.reload();
+      }
+    </script>
     {% else %}
     <a class="button is-info" disabled><p>Log in to follow</p></a>
     {% endif %}
