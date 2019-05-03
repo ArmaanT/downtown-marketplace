@@ -57,7 +57,7 @@ class ProfileView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         uname = kwargs['username']
-        prof_user = get_user_model().objects.filter(username=uname).first()
+        prof_user = get_object_or_404(get_user_model(), username=uname)
 
         follow_state = 0
         user = self.request.user
