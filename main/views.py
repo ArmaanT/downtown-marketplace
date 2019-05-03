@@ -42,9 +42,18 @@ class ProfileView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         uname = kwargs['username']
-        if uname == "":
-            uname = self.request.user.username
+        prof_user = User.objects.filter(username=uname).first()
 
-        context['profile_user'] = User.objects.filter(username=uname).first()
+        follow_state = 0
+        user = self.request.user
+
+        if user.is_authenticated:
+            if user.following.filter(id=prof_user.id).exists():
+                follow_state = 1
+            else:
+                follow_state = 2
+
+        context['follow_state'] = follow_state
+        context['profile_user'] = prof_user
 
         return context
