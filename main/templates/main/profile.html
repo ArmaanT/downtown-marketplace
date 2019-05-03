@@ -5,12 +5,14 @@
   <div class="column is-6 is-offset-3 has-text-centered">
     <h1 class="title is-1">{{ profile_user.first_name }} {{ profile_user.last_name}}</h1>
     <h1 class="subtitle">@{{ profile_user.username }}</h1>
+    {% if request.user.username != profile_user.username %}
     {% if follow_state == 1 %}
     <a class="button is-primary" onclick="unfollow()"><p><i class="fas fa-check"></i> following</p></a>
     {% elif follow_state == 2 %}
     <button class="button is-info" onclick="follow()"><p><i class="fas fa-plus"></i> follow</p></button>
     {% else %}
     <a class="button is-info" disabled><p>Log in to follow</p></a>
+    {% endif %}
     {% endif %}
     <script type="text/javascript">
       function getCookie(name) {
