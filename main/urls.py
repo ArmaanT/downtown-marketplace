@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
-from main.views import HomeView, SignupView, ProfileView
+from main.views import HomeView, ProfileView, SignupView
 
 
 urlpatterns = [
