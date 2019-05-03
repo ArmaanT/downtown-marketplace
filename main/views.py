@@ -1,9 +1,24 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from main.forms import SignupForm
-from main.models import Downtown, User
+from main.models import Downtown
+
+
+@method_decorator(login_required, 'post')
+class FollowView(View):
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username',  '')
+        following = get_object_or_404(get_user_model(), username=username)
+        request.user.following.add(following)
+        return HttpResponse('Success')
 
 
 class HomeView(TemplateView):
@@ -42,7 +57,7 @@ class ProfileView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         uname = kwargs['username']
-        prof_user = User.objects.filter(username=uname).first()
+        prof_user = get_user_model().objects.filter(username=uname).first()
 
         follow_state = 0
         user = self.request.user
