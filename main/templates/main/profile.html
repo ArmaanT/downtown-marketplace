@@ -6,9 +6,12 @@
     <h1 class="title is-1">{{ profile_user.first_name }} {{ profile_user.last_name}}</h1>
     <h1 class="subtitle">@{{ profile_user.username }}</h1>
     {% if follow_state == 1 %}
-    <a class="button is-primary"><p><i class="fas fa-check"></i> following</p></a>
+    <a class="button is-primary" onclick="unfollow()"><p><i class="fas fa-check"></i> following</p></a>
     {% elif follow_state == 2 %}
     <button class="button is-info" onclick="follow()"><p><i class="fas fa-plus"></i> follow</p></button>
+    {% else %}
+    <a class="button is-info" disabled><p>Log in to follow</p></a>
+    {% endif %}
     <script type="text/javascript">
       function getCookie(name) {
         var cookieValue = null;
@@ -26,7 +29,6 @@
         return cookieValue;
       }
       function follow() {
-        console.log("a")
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/accounts/follow/", true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -34,13 +36,29 @@
         urlEncodedDataPairs.push(encodeURIComponent("username") + '=' + encodeURIComponent("{{ profile_user.username }}"));
         urlEncodedDataPairs.push(encodeURIComponent("csrfmiddlewaretoken") + '=' + encodeURIComponent(getCookie('csrftoken')));
         urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+        xhr.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            location.reload();
+          }
+        };
         xhr.send(urlEncodedData);
-        location.reload();
+      }
+      function unfollow() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/accounts/unfollow/", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        urlEncodedDataPairs = []
+        urlEncodedDataPairs.push(encodeURIComponent("username") + '=' + encodeURIComponent("{{ profile_user.username }}"));
+        urlEncodedDataPairs.push(encodeURIComponent("csrfmiddlewaretoken") + '=' + encodeURIComponent(getCookie('csrftoken')));
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+        xhr.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            location.reload();
+          }
+        };
+        xhr.send(urlEncodedData);
       }
     </script>
-    {% else %}
-    <a class="button is-info" disabled><p>Log in to follow</p></a>
-    {% endif %}
   </div>
 </div>
 {% endblock %}

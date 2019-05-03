@@ -72,3 +72,12 @@ class ProfileView(TemplateView):
         context['profile_user'] = prof_user
 
         return context
+
+
+@method_decorator(login_required, 'post')
+class UnfollowView(View):
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username',  '')
+        following = get_object_or_404(get_user_model(), username=username)
+        request.user.following.remove(following)
+        return HttpResponse('Success')
