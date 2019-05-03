@@ -5,8 +5,8 @@ from django.db import models
 
 class User(AbstractUser):
     venmo = models.CharField(max_length=255)
-    following = models.ManyToManyField('self', symmetrical=False)
-    attending = models.ManyToManyField('Downtown')
+    following = models.ManyToManyField('self', symmetrical=False, blank=True)
+    attending = models.ManyToManyField('Downtown', blank=True)
 
 
 class Downtown(models.Model):
