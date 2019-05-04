@@ -29,7 +29,9 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         query = self.request.GET.get('query', '')
         downtowns = Downtown.objects.filter(name__contains=query)
-        users = User.objects.filter(Q(first_name__contains=query) | Q(last_name__contains=query) | Q(username__contains=query))
+        users = User.objects.filter(
+            Q(first_name__contains=query) | Q(last_name__contains=query) | Q(username__contains=query)
+        )
         if self.request.user.is_authenticated:
             following = self.request.user.following
             downtown_info = map(
