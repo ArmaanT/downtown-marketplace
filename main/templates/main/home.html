@@ -1,7 +1,37 @@
 {% extends 'main/base.html' %}
+{% load bulma_tags %}
+
+{% block header %}
+<div class="columns">
+  <div class="column is-6 is-offset-3">
+    <div class="tabs is-centered is-boxed is-medium">
+      <ul>
+        <li class="tab is-active" onclick="openTab(event, 'downtown-tab')"><a>Downtowns</a></li>
+        <li class="tab" onclick="openTab(event, 'user-tab')"><a>Users</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+function openTab(evt, tabName) {
+    var i, x, tablinks;
+    x = document.getElementsByClassName("content-tab");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab");
+    for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " is-active";
+}
+</script>
+{% endblock %}
 
 {% block content %}
 
+<div id="downtown-tab" class="content-tab">
 {% for downtown, count in downtown_info %}
 <div class="box">
   <div class="columns">
@@ -49,5 +79,34 @@
   </div>
 </div>
 {% endfor %}
+</div>
+<div id="user-tab" class="content-tab" style="display: none;">
+{% for user, common in user_info %}
+<div class="columns">
+  <div class="column is-6 is-offset-3">
+    <a href="/accounts/profile/{{ user.username }}">
+    <div class="box" href="/accounts/profile/{{ user.username }}">
+      <div class="columns">
+        <div class="column is-9">
+          <p>
+            <strong class="is-size-3">{{ user.first_name }} {{ user.last_name }}</strong>
+            <br/>
+            @{{ user.username }}
+          </p>
+        </div>
+        <div class="column is-3 has-text-centered">
+          <p>
+            <strong class="is-size-3">{{ common }}</strong>
+            <br/>
+            common friends
+          </p>
+        </div>
+      </div>
+    </div>
+    </a>
+  </div>
+</div>
+{% endfor %}
+</div>
 
 {% endblock %}
