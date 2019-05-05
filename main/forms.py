@@ -21,6 +21,7 @@ class SignupForm(UserCreationForm):
             user.save()
         return user
 
+
 class SellForm(forms.ModelForm):
     class Meta:
         model = Ticket
