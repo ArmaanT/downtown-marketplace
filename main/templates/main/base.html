@@ -16,6 +16,20 @@
       </div>
     </div>
     <div class="navbar-end">
+      <div class="navbar-item">
+        <form method="get" action="/">
+          <div class="field has-addons">
+            <div class="control">
+              <input id="search-box" class="input" name="query" type="text" placeholder="Search here"/>
+            </div>
+            <div class="control">
+              <button class="button is-info" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
       {% if user.is_authenticated %}
       <div class="navbar-item">
         <div>Welcome, {{ user.first_name|default:user.username }}!</div>

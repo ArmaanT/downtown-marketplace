@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -26,16 +27,33 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        downtowns = Downtown.objects.all()
+        query = self.request.GET.get('query', '')
+        downtowns = Downtown.objects.filter(name__contains=query)
+        users = get_user_model().objects.filter(
+            Q(first_name__contains=query) | Q(last_name__contains=query) | Q(username__contains=query)
+        )
         if self.request.user.is_authenticated:
             following = self.request.user.following
-            context['downtown_info'] = map(
+            downtown_info = map(
                 lambda downtown: (downtown, len(following.filter(attending__id__exact=downtown.id))),
-                downtowns)
+                downtowns
+            )
+            user_info = map(
+                lambda user: (user, len(following.all() & user.following.all())),
+                users
+            )
+            downtown_info = sorted(downtown_info, key=lambda d: d[1], reverse=True)
+            user_info = sorted(user_info, key=lambda u: u[1], reverse=True)
+            context['user_info'] = user_info
+            context['downtown_info'] = downtown_info
         else:
             context['downtown_info'] = map(
                 lambda downtown: (downtown, 0),
                 downtowns)
+            context['user_info'] = map(
+                lambda user: (user, 0),
+                users
+            )
 
         return context
 
