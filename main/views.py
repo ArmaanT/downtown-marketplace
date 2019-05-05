@@ -1,15 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import CreateView, TemplateView
 from django.views.generic.edit import FormView
 
-from main.forms import SignupForm
+from main.forms import SellForm, SignupForm
 from main.models import Downtown
 
 
@@ -66,6 +66,23 @@ class SignupView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class SellView(CreateView):
+    template_name = 'main/sell.html'
+    form_class = SellForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.seller = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(SellView, self).get_form_kwargs(*args, **kwargs)
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class ProfileView(TemplateView):

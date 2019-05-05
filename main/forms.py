@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
+from main.models import Ticket
+
 
 class SignupForm(UserCreationForm):
     email = forms.EmailField(label='Email')
@@ -18,3 +20,12 @@ class SignupForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class SellForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        exclude = ('seller',)
+
+    def __init__(self, *args, **kwargs):
+        self.seller = kwargs.pop('user')
+        super(SellForm, self).__init__(*args, **kwargs)
