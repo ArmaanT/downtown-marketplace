@@ -20,7 +20,7 @@ class Downtown(models.Model):
 
 
 class Ticket(models.Model):
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
     seller = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
     downtown = models.ForeignKey(Downtown, on_delete=models.DO_NOTHING)
 
