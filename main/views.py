@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from main.forms import SignupForm
-from main.models import Downtown, User
+from main.models import Downtown
 
 
 @method_decorator(login_required, 'post')
@@ -29,7 +29,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         query = self.request.GET.get('query', '')
         downtowns = Downtown.objects.filter(name__contains=query)
-        users = User.objects.filter(
+        users = get_user_model().objects.filter(
             Q(first_name__contains=query) | Q(last_name__contains=query) | Q(username__contains=query)
         )
         if self.request.user.is_authenticated:

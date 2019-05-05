@@ -6,8 +6,12 @@
   <div class="column is-6 is-offset-3">
     <div class="tabs is-centered is-boxed is-medium">
       <ul>
-        <li class="tab is-active" onclick="openTab(event, 'downtown-tab')"><a>Downtowns</a></li>
-        <li class="tab" onclick="openTab(event, 'user-tab')"><a>Users</a></li>
+        <li class="tab is-active" onclick="openTab(event, 'downtown-tab')"><a>
+          <p>Downtowns <span class="is-italic">({{ downtown_info|length }})</span></p>
+        </a></li>
+        <li class="tab" onclick="openTab(event, 'user-tab')"><a>
+          <p>Users <span class="is-italic">({{ user_info|length }})</span></p>
+        </a></li>
       </ul>
     </div>
   </div>
@@ -25,6 +29,17 @@ function openTab(evt, tabName) {
     }
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " is-active";
+}
+
+function get(name){
+   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search)){
+      return decodeURIComponent(name[1]);
+   }
+}
+
+term = get('query');
+if (term != undefined){
+    document.getElementById('search-box').value = term;
 }
 </script>
 {% endblock %}
