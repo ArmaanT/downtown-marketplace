@@ -6,11 +6,11 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import CreateView, TemplateView
 from django.views.generic.edit import FormView
 
 from main.forms import SignupForm
-from main.models import Downtown
+from main.models import Downtown, Ticket
 
 
 @method_decorator(login_required, 'post')
@@ -65,6 +65,19 @@ class SignupView(FormView):
 
     def form_valid(self, form):
         form.save()
+        return super().form_valid(form)
+
+
+class SellView(CreateView):
+    template_name = 'main/sell.html'
+    model = Ticket
+    fields = ['price', 'downtown']
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.seller = self.request.user
+        self.object.save()
         return super().form_valid(form)
 
 
