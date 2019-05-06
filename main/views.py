@@ -28,7 +28,6 @@ class CloseTicketView(View):
         ticket_id = request.POST.get('ticket',  '')
         ticket = get_object_or_404(Ticket, id=ticket_id)
         if ticket.seller == self.request.user:
-            print("found")
             ticket.sold = not ticket.sold
         ticket.save()
         return HttpResponse('Success')

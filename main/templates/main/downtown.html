@@ -83,6 +83,7 @@ function sell(i) {
 {% for ticket in tickets %}
 <div class="columns">
   <div class="column is-6 is-offset-3">
+    <a>
     <div class="box" onclick="openModal( {{ ticket.id }} )">
       <div class="columns">
         <div class="column is-9">
@@ -97,6 +98,7 @@ function sell(i) {
         </div>
       </div>
     </div>
+    </a>
   </div>
 </div>
 

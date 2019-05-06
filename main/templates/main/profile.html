@@ -91,6 +91,7 @@
 {% for ticket in profile_user.ticket_set.all %}
 <div class="columns">
   <div class="column is-6 is-offset-3">
+    <a>
     <div class="box" onclick="openModal( {{ ticket.id }} )">
       <div class="columns">
         <div class="column is-9">
@@ -105,6 +106,7 @@
         </div>
       </div>
     </div>
+    </a>
   </div>
 </div>
 
