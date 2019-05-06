@@ -47,13 +47,14 @@ class HomeView(TemplateView):
             context['user_info'] = user_info
             context['downtown_info'] = downtown_info
         else:
-            context['downtown_info'] = map(
+            context['downtown_info'] = list(map(
                 lambda downtown: (downtown, 0),
-                downtowns)
-            context['user_info'] = map(
+                downtowns
+            ))
+            context['user_info'] = list(map(
                 lambda user: (user, 0),
                 users
-            )
+            ))
 
         return context
 
@@ -66,6 +67,17 @@ class SignupView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class DowntownView(TemplateView):
+    template_name = 'main/downtown.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        downtown = Downtown.objects.filter(id=kwargs['dtname']).first()
+        context['downtown'] = downtown
+        context['tickets'] = downtown.ticket_set.all()
+        return context
 
 
 class SellView(CreateView):
