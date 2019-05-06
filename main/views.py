@@ -37,14 +37,8 @@ class DowntownView(TemplateView):
     template_name = 'main/downtown.html'
 
     def get_context_data(self, **kwargs):
-        tickets = Ticket.objects.all()
         context = super().get_context_data(**kwargs)
-        context['downtown'] = Downtown.objects.filter(id=kwargs['dtname']).first()
-        context['downtown_tickets'] = map(
-            lambda ticket: (ticket),
-            tickets)
-        for ticket in context['downtown_tickets']:
-            print(ticket)
+        downtown = Downtown.objects.filter(id=kwargs['dtname']).first()
+        context['downtown'] = downtown
+        context['tickets'] = downtown.ticket_set.all()
         return context
-
-
