@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from main.forms import SignupForm
-from main.models import Downtown
+from main.models import Downtown, Ticket
 
 
 class HomeView(TemplateView):
@@ -24,7 +24,6 @@ class HomeView(TemplateView):
 
         return context
 
-
 class SignupView(FormView):
     template_name = 'main/signup.html'
     form_class = SignupForm
@@ -33,3 +32,19 @@ class SignupView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+class DowntownView(TemplateView):
+    template_name = 'main/downtown.html'
+
+    def get_context_data(self, **kwargs):
+        tickets = Ticket.objects.all()
+        context = super().get_context_data(**kwargs)
+        context['downtown'] = Downtown.objects.filter(id=kwargs['dtname']).first()
+        context['downtown_tickets'] = map(
+            lambda ticket: (ticket),
+            tickets)
+        for ticket in context['downtown_tickets']:
+            print(ticket)
+        return context
+
+
