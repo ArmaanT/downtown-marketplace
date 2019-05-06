@@ -37,6 +37,7 @@
       </div>
       <div class="navbar-item">
         <div class="buttons">
+          <a href="/accounts/profile/{{ user.username }}" class="button is-primary">Profile</a>
           <a href="{% url 'logout' %}" class="button is-secondary">Log out</a>
         </div>
       </div>
@@ -65,7 +66,7 @@
   <section class="hero is-info is-small">
     <div style="flex-shrink: 0" class="hero-body">
       <div class="container">
-        <p> Made without
+        <p> Made with a regrettable amount of 
           <i class="fab fa-js-square"></i>
           by
           <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Armaan, Ben, and Peyton</a>

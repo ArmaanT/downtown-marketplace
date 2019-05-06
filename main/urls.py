@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
-from main.views import FollowView, HomeView, ProfileView, SellView, SignupView, UnfollowView
+from main.views import AttendView, CloseTicketView, DowntownView, FollowView, HomeView, ProfileView, SellView, SignupView, UnattendView, UnfollowView
 
 
 urlpatterns = [
@@ -13,4 +13,7 @@ urlpatterns = [
     path('accounts/signup/', SignupView.as_view(), name='signup'),
     path('accounts/profile/<slug:username>/', ProfileView.as_view(), name='profile'),
     path('sell/', SellView.as_view(), name='sell'),
+    path('close/', CloseTicketView.as_view(), name='close'),
+    path('attend/', AttendView.as_view(), name='attend'),
+    path('unattend/', UnattendView.as_view(), name='unattend'),
 ]

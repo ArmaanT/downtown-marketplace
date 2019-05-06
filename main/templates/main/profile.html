@@ -60,6 +60,28 @@
         };
         xhr.send(urlEncodedData);
       }
+      function sell(i) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{% url 'close' %}", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        urlEncodedDataPairs = []
+        urlEncodedDataPairs.push(encodeURIComponent("ticket") + '=' + encodeURIComponent(i));
+        urlEncodedDataPairs.push(encodeURIComponent("csrfmiddlewaretoken") + '=' + encodeURIComponent(getCookie('csrftoken')));
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+        xhr.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            location.reload();
+          }
+        };
+        xhr.send(urlEncodedData);
+      }
+      function closeModal(i){
+        document.getElementById("ticket-" + i + "-modal").classList.remove('is-active');
+      }
+
+      function openModal(i){
+        document.getElementById("ticket-" + i + "-modal").classList.add('is-active');
+      }
     </script>
   </div>
 </div>
@@ -69,20 +91,58 @@
 {% for ticket in profile_user.ticket_set.all %}
 <div class="columns">
   <div class="column is-6 is-offset-3">
-    <div class="box">
+    <div class="box" onclick="openModal( {{ ticket.id }} )">
       <div class="columns">
-        <div class="column">
+        <div class="column is-9">
           <strong class="is-size-3">
-            {{ ticket.downtown }}
+            {{ ticket.seller.first_name|default:ticket.seller.username }} {{ ticket.seller.last_name }}
           </strong>
         </div>
-        <div class="column has-text-right">
+        <div class="column is-3 has-text-right">
           <strong class="is-size-3">
             ${{ ticket.price }}
           </strong>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="modal" id="ticket-{{ ticket.id }}-modal">
+  <div class="modal-background" onclick="closeModal({{ ticket.id }})"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">
+        {{ ticket.downtown.name }}
+        {% if ticket.sold %}
+        (Sold)
+        {% else %}
+        (Not sold)
+        {% endif %}
+      </p>
+      <button class="delete" aria-label="close" onclick="closeModal({{ ticket.id }})"></button>
+    </header>
+    <section class="modal-card-body">
+      <p class="title">{{ ticket.seller.first_name|default:ticket.seller.username }} {{ ticket.seller.last_name }}</p>
+      <p class="subtitle">${{ ticket.price }}</p>
+      <p>{{ ticket.bio }}</p>
+    </section>
+    <footer class="modal-card-foot">
+      {% if user.is_authenticated %}
+      {% if user == ticket.seller %}
+      <button class="button is-success" onclick="sell({{ ticket.id }})">
+        {% if ticket.sold %}
+        Open
+        {% else %}
+        Close
+        {% endif %}
+         ticket
+      </button>
+      {% endif %}
+      {% endif %}
+      <a class="button is-info" href="mailto:{{ ticket.seller.email }}">Contact seller</a>
+      <button class="button" onclick="closeModal({{ ticket.id }})">Cancel</button>
+    </footer>
   </div>
 </div>
 {% endfor %}

@@ -22,15 +22,49 @@ class FollowView(View):
         return HttpResponse('Success')
 
 
+@method_decorator(login_required, 'post')
+class CloseTicketView(View):
+    def post(self, request, *args, **kwargs):
+        ticket_id = request.POST.get('ticket',  '')
+        ticket = get_object_or_404(Ticket, id=ticket_id)
+        if ticket.seller == self.request.user:
+            print("found")
+            ticket.sold = not ticket.sold
+        ticket.save()
+        return HttpResponse('Success')
+
+
+@method_decorator(login_required, 'post')
+class AttendView(View):
+    def post(self, request, *args, **kwargs):
+        downtown_id = request.POST.get('downtown',  '')
+        downtown = get_object_or_404(Downtown, id=downtown_id)
+        user = self.request.user
+        user.attending.add(downtown)
+        user.save()
+        return HttpResponse('Success')
+
+
+@method_decorator(login_required, 'post')
+class UnattendView(View):
+    def post(self, request, *args, **kwargs):
+        downtown_id = request.POST.get('downtown',  '')
+        downtown = get_object_or_404(Downtown, id=downtown_id)
+        user = self.request.user
+        user.attending.remove(downtown)
+        user.save()
+        return HttpResponse('Success')
+
+
 class HomeView(TemplateView):
     template_name = 'main/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         query = self.request.GET.get('query', '')
-        downtowns = Downtown.objects.filter(name__contains=query)
+        downtowns = Downtown.objects.filter(name__icontains=query)
         users = get_user_model().objects.filter(
-            Q(first_name__contains=query) | Q(last_name__contains=query) | Q(username__contains=query)
+            Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(username__icontains=query)
         )
         if self.request.user.is_authenticated:
             following = self.request.user.following
@@ -68,10 +102,31 @@ class SignupView(FormView):
         return super().form_valid(form)
 
 
+class DowntownView(TemplateView):
+    template_name = 'main/downtown.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        downtown = Downtown.objects.filter(id=kwargs['dtname']).first()
+
+        attending_state = 0
+        user = self.request.user
+        if user.is_authenticated:
+            if user.attending.filter(id=downtown.id).exists():
+                attending_state = 1
+            else:
+                attending_state = 2
+
+        context['attending_state'] = attending_state
+        context['downtown'] = downtown
+        context['tickets'] = downtown.ticket_set.filter(sold=False)
+        return context
+
+
 class SellView(CreateView):
     template_name = 'main/sell.html'
     model = Ticket
-    fields = ['price', 'downtown']
+    fields = ['price', 'downtown', 'bio']
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
