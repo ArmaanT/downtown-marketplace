@@ -2,7 +2,7 @@
 {% load bulma_tags %}
 
 {% block header %}
-<h1 class="title is-1 has-text-centered">Sign up</h1>
+<h1 class="title is-1 has-text-centered">Sell Ticket</h1>
 {% endblock %}
 
 {% block content %}
@@ -13,10 +13,10 @@
       {{ form|bulma }}
       <div class="field is-grouped">
         <div class="control">
-          <button type="submit" class="button is-link">Register</button>
+          <button type="submit" class="button is-link">Submit</button>
         </div>
         <div class="control">
-          <a href="/" class="button is-text">Cancel</a>
+          <a href="{% url 'home' %}" class="button is-text">Cancel</a>
         </div>
       </div>
     </form>

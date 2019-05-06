@@ -5,8 +5,8 @@ from django.db import models
 
 class User(AbstractUser):
     venmo = models.CharField(max_length=255)
-    following = models.ManyToManyField('self', symmetrical=False)
-    attending = models.ManyToManyField('Downtown')
+    following = models.ManyToManyField('self', symmetrical=False, blank=True)
+    attending = models.ManyToManyField('Downtown', blank=True)
 
 
 class Downtown(models.Model):
@@ -20,7 +20,7 @@ class Downtown(models.Model):
 
 
 class Ticket(models.Model):
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
     seller = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
     downtown = models.ForeignKey(Downtown, on_delete=models.DO_NOTHING)
 

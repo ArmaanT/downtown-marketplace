@@ -12,10 +12,25 @@
   <nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a href="/" class="navbar-item">Home</a>
+        <a href="{% url 'home' %}" class="navbar-item">Home</a>
+        <a href="{% url 'sell' %} " class="navbar-item">Sell</a>
       </div>
     </div>
     <div class="navbar-end">
+      <div class="navbar-item">
+        <form method="get" action="{% url 'home' %}">
+          <div class="field has-addons">
+            <div class="control">
+              <input id="search-box" class="input" name="query" type="text" placeholder="Search here"/>
+            </div>
+            <div class="control">
+              <button class="button is-info" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
       {% if user.is_authenticated %}
       <div class="navbar-item">
         <div>Welcome, {{ user.first_name|default:user.username }}!</div>
@@ -36,6 +51,10 @@
     </div>
   </nav>
   <section style="flex: 1 0 auto" class="section">
+    <div class="hero-head">
+      {% block header %}
+      {% endblock %}
+    </div>
     <div class="hero-body">
       <div class="container">
         {% block content %}
