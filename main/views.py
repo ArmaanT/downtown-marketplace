@@ -79,6 +79,7 @@ class DowntownView(TemplateView):
         context['tickets'] = downtown.ticket_set.all()
         return context
 
+
 class SellView(CreateView):
     template_name = 'main/sell.html'
     model = Ticket
