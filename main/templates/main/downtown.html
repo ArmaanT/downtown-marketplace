@@ -4,6 +4,7 @@
 <div class="has-text-centered">
   <h1 class="title is-1">{{ downtown.name }}</h1>
   <h1 class="subtitle">{{ downtown.location }}</h1>
+<<<<<<< HEAD
   {% if attending_state == 1 %}
   <a class="button is-primary" onclick="attend(false)"><p><i class="fas fa-check"></i> attending</p></a>
   {% elif attending_state == 2 %}
@@ -76,6 +77,9 @@ function sell(i) {
   xhr.send(urlEncodedData);
 }
 </script>
+=======
+</div>
+>>>>>>> 3ed31ff30f3e74b1933932b48c28b826cb4465dd
 {% endblock %}
 
 {% block content %}
@@ -83,7 +87,11 @@ function sell(i) {
 {% for ticket in tickets %}
 <div class="columns">
   <div class="column is-6 is-offset-3">
+<<<<<<< HEAD
     <div class="box" onclick="openModal( {{ ticket.id }} )">
+=======
+    <div class="box">
+>>>>>>> 3ed31ff30f3e74b1933932b48c28b826cb4465dd
       <div class="columns">
         <div class="column is-9">
           <strong class="is-size-3">
@@ -99,6 +107,7 @@ function sell(i) {
     </div>
   </div>
 </div>
+<<<<<<< HEAD
 
 <div class="modal" id="ticket-{{ ticket.id }}-modal">
   <div class="modal-background" onclick="closeModal({{ ticket.id }})"></div>
@@ -123,6 +132,8 @@ function sell(i) {
     </footer>
   </div>
 </div>
+=======
+>>>>>>> 3ed31ff30f3e74b1933932b48c28b826cb4465dd
 {% endfor %}
 
 {% endblock %}
