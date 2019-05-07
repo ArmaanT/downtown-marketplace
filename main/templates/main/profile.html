@@ -119,11 +119,10 @@
       {% if user == ticket.seller %}
       <button class="button is-success" onclick="sell({{ ticket.id }})">
         {% if ticket.sold %}
-        Open
+        Mark as unsold
         {% else %}
-        Close
+        Mark as sold
         {% endif %}
-         ticket
       </button>
       {% endif %}
       {% endif %}

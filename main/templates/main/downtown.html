@@ -101,7 +101,7 @@ function sell(i) {
     <footer class="modal-card-foot">
       {% if user.is_authenticated %}
       {% if user == ticket.seller %}
-      <button class="button is-success" onclick="sell({{ ticket.id }})">Delete ticket</button>
+      <button class="button is-success" onclick="sell({{ ticket.id }})">Mark as sold</button>
       {% endif %}
       {% endif %}
       <a class="button is-info" href="mailto:{{ ticket.seller.email }}" target="_blank">Contact seller</a>
