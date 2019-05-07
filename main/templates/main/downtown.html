@@ -104,7 +104,7 @@ function sell(i) {
       <button class="button is-success" onclick="sell({{ ticket.id }})">Close ticket</button>
       {% endif %}
       {% endif %}
-      <a class="button is-info" href="mailto:{{ ticket.seller.email }}">Contact seller</a>
+      <a class="button is-info" href="mailto:{{ ticket.seller.email }}" target="_blank">Contact seller</a>
       <button class="button" onclick="closeModal({{ ticket.id }})">Cancel</button>
     </footer>
   </div>
