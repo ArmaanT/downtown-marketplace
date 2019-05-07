@@ -9,7 +9,7 @@ class SignupForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'venmo')
+        fields = ('username', 'email', 'first_name', 'last_name', 'venmo')
 
     def save(self, commit=True):
         user = super().save(commit=False)
