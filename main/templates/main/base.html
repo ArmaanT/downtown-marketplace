@@ -7,6 +7,23 @@
   <title>Downtowns</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <script>
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  </script>
 </head>
 <body style="display: flex; flex-direction: column; height: 100%">
   <nav class="navbar is-light" role="navigation" aria-label="main navigation">
@@ -37,7 +54,7 @@
       </div>
       <div class="navbar-item">
         <div class="buttons">
-          <a href="/accounts/profile/{{ user.username }}" class="button is-primary">Profile</a>
+          <a href="{% url 'profile' user.username %}" class="button is-primary">Profile</a>
           <a href="{% url 'logout' %}" class="button is-secondary">Log out</a>
         </div>
       </div>
