@@ -23,6 +23,8 @@ class Ticket(models.Model):
     price = models.PositiveIntegerField()
     seller = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
     downtown = models.ForeignKey(Downtown, on_delete=models.DO_NOTHING)
+    bio = models.TextField(default='')
+    sold = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['price']

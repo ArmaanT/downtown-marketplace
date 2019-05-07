@@ -4,7 +4,62 @@
 <div class="has-text-centered">
   <h1 class="title is-1">{{ downtown.name }}</h1>
   <h1 class="subtitle">{{ downtown.location }}</h1>
+  {% if attending_state == 1 %}
+  <a class="button is-primary" onclick="attend(false)"><p><i class="fas fa-check"></i> attending</p></a>
+  {% elif attending_state == 2 %}
+  <button class="button is-info" onclick="attend(true)"><p><i class="fas fa-plus"></i> attend</p></button>
+  {% else %}
+  <a class="button is-info" disabled><p>Log in to attend</p></a>
+  {% endif %}
 </div>
+
+<script>
+function closeModal(i){
+    document.getElementById("ticket-" + i + "-modal").classList.remove('is-active');
+}
+
+function openModal(i){
+    document.getElementById("ticket-" + i + "-modal").classList.add('is-active');
+}
+
+function attend(attending) {
+  var url = "";
+  if (attending){
+    url = "/attend/"
+  } else {
+    url = "/unattend/"
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  urlEncodedDataPairs = []
+  urlEncodedDataPairs.push(encodeURIComponent("downtown") + '=' + encodeURIComponent("{{ downtown.id }}"));
+  urlEncodedDataPairs.push(encodeURIComponent("csrfmiddlewaretoken") + '=' + encodeURIComponent(getCookie('csrftoken')));
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload();
+    }
+  };
+  xhr.send(urlEncodedData);
+}
+
+function sell(i) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "{% url 'close' %}", true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  urlEncodedDataPairs = []
+  urlEncodedDataPairs.push(encodeURIComponent("ticket") + '=' + encodeURIComponent(i));
+  urlEncodedDataPairs.push(encodeURIComponent("csrfmiddlewaretoken") + '=' + encodeURIComponent(getCookie('csrftoken')));
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload();
+    }
+  };
+  xhr.send(urlEncodedData);
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -12,7 +67,8 @@
 {% for ticket in tickets %}
 <div class="columns">
   <div class="column is-6 is-offset-3">
-    <div class="box">
+    <a>
+    <div class="box" onclick="openModal( {{ ticket.id }} )">
       <div class="columns">
         <div class="column is-9">
           <strong class="is-size-3">
@@ -26,6 +82,31 @@
         </div>
       </div>
     </div>
+    </a>
+  </div>
+</div>
+
+<div class="modal" id="ticket-{{ ticket.id }}-modal">
+  <div class="modal-background" onclick="closeModal({{ ticket.id }})"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">{{ downtown.name }}</p>
+      <button class="delete" aria-label="close" onclick="closeModal({{ ticket.id }})"></button>
+    </header>
+    <section class="modal-card-body">
+      <p class="title">{{ ticket.seller.first_name|default:ticket.seller.username }} {{ ticket.seller.last_name }}</p>
+      <p class="subtitle">${{ ticket.price }}</p>
+      <p>{{ ticket.bio }}</p>
+    </section>
+    <footer class="modal-card-foot">
+      {% if user.is_authenticated %}
+      {% if user == ticket.seller %}
+      <button class="button is-success" onclick="sell({{ ticket.id }})">Mark as sold</button>
+      {% endif %}
+      {% endif %}
+      <a class="button is-info" href="mailto:{{ ticket.seller.email }}" target="_blank">Contact seller</a>
+      <button class="button" onclick="closeModal({{ ticket.id }})">Cancel</button>
+    </footer>
   </div>
 </div>
 {% endfor %}
